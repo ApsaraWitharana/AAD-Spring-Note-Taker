@@ -1,7 +1,10 @@
 package lk.ijse.gdse68.notetraker.controller;
 
+import lk.ijse.gdse68.notetraker.bo.NoteBO;
 import lk.ijse.gdse68.notetraker.dto.NoteDTO;
 import lk.ijse.gdse68.notetraker.util.ApiUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,16 +13,21 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/notes")//component annotation  ek meta annotate wel tiyenne
+@RequiredArgsConstructor
 public class NoteController {
+    @Autowired
+    private  final NoteBO noteBO;
    //TODO: CRUD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO note){
 
+        var saveData = noteBO.saveNote(note);
+        return ResponseEntity.ok(saveData);
 
         //TODO: Handle with BO
-        note.setNoteId(ApiUtil.createNoteId());
-        System.out.println(note);
-        return ResponseEntity.ok("Note created successfully");
+//        note.setNoteId(ApiUtil.createNoteId());
+//        System.out.println(note);
+      //  return ResponseEntity.ok("Note created successfully");
 
         //req== http://localhost:8080/note/api/v1/notes
         //resp-Note created successfully

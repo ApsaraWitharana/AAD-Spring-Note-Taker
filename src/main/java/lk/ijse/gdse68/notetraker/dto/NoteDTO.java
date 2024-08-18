@@ -16,4 +16,8 @@ public class NoteDTO implements Serializable {
     private String noteDesc;
     private String priorityLevel;
     private Long createDate;
+
+
+    public NoteDTO(String noteId, String restServices, String explainTheRest, String p1, String number) {
+    }
 }

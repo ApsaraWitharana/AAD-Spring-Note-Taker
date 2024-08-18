@@ -42,11 +42,17 @@ public class NoteController {
     @GetMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO getNote(@PathVariable ("noteId") String noteId){
         System.out.println(noteId);
-        return null;
+        return new NoteDTO(
+                "NOTE 4f8a0a67-2ebc-41b2-9de6-4e9bcdba65bb",
+                "REST services",
+                "Explain the REST",
+                "P1",
+                "20240818"
+        );
     }
 
     //update
-    @PutMapping (consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateNote(@PathVariable("noteId") String noteId,@RequestBody NoteDTO note ){
         System.out.println(noteId);
         System.out.println(note + "Update");

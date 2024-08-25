@@ -18,7 +18,7 @@ public class Mapping {
     public NoteDTO convertToDTO(NoteEntity note){ //entity type dto ek converte krnwa dto ekt
         return modelMapper.map(note,NoteDTO.class); //entity to dto converting
     }
-    public NoteEntity convertToDTO(NoteDTO dto){ //entity type dto ek converte krnwa dto ekt
+    public NoteEntity convertToEntity(NoteDTO dto){ //entity type dto ek converte krnwa dto ekt
         return modelMapper.map(dto,NoteEntity.class); //entity to dto converting
     }
 

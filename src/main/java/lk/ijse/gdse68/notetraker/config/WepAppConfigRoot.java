@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages ="lk.ijse.gdse68.notetraker" )
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages ="lk.ijse.gdse68.notetraker" )
 @EnableTransactionManagement
 public class WepAppConfigRoot {
     @Bean //cource code ek nati hinda bean danw nattm component dnna

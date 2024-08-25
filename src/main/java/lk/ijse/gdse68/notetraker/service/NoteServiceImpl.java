@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 @Service // service class ek manage krnw // spring wisin component annotation ek meta annotate krl tiyenne
 public final class NoteServiceImpl implements NoteService {
@@ -31,17 +32,33 @@ public final class NoteServiceImpl implements NoteService {
 
     @Override
     public void updateNote(String noteId,NoteDTO incomeNoteDTO) {
-        for (NoteDTO updateNote :saveNoteTmp){
-            if (updateNote.getNoteId().equals(noteId)){
-                updateNote.setNoteDesc(incomeNoteDTO.getNoteDesc());
-                updateNote.setNoteTitle(incomeNoteDTO.getNoteTitle());
-                updateNote.setPriorityLevel(incomeNoteDTO.getPriorityLevel());
-                updateNote.setCreateDate(incomeNoteDTO.getCreateDate());
+//        for (NoteDTO updateNote :saveNoteTmp){
+//            if (updateNote.getNoteId().equals(noteId)){
+//                updateNote.setNoteDesc(incomeNoteDTO.getNoteDesc());
+//                updateNote.setNoteTitle(incomeNoteDTO.getNoteTitle());
+//                updateNote.setPriorityLevel(incomeNoteDTO.getPriorityLevel());
+//                updateNote.setCreateDate(incomeNoteDTO.getCreateDate());
+//
+//            }
+//        }
+        ListIterator<NoteDTO> updateNote = saveNoteTmp.listIterator(); // object traver krnwa index eken adal ek return krnwa
+while (updateNote.hasNext()) { //hash -arry eke list size ek wenkm run wenwa
+    NoteDTO noteDTO = updateNote.next();
+    if (noteId.equals(noteDTO.getNoteId())) {
+        incomeNoteDTO.setNoteId(noteDTO.getNoteId());
+        updateNote.set(incomeNoteDTO);
+        break; //while ek iwara unam break krnwa
 
-
-            }
-        }
-
+        //req http://localhost:8080/note/api/v1/notes/NODE: f3473c8c-6cb9-4fd9-b2ec-94c357abafde
+        //  resp-update get all check{
+        //        "noteId": "NODE: f3473c8c-6cb9-4fd9-b2ec-94c357abafde",
+        //        "noteTitle": "Sopet sevices",
+        //        "noteDesc": "Hiii",
+        //        "priorityLevel": "P3",
+        //        "createDate": 20240818
+        //    }
+    }
+}
     }
 
     @Override

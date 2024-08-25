@@ -7,7 +7,7 @@ import java.util.List;
 public sealed interface NoteService permits NoteServiceImpl {
     String saveNote(NoteDTO noteDTO);
     void updateNote(String noteId,NoteDTO noteDTO);
-    boolean deleteNote(String noteId);
+    void deleteNote(String noteId);
     NoteDTO getSelectedNote(String noteId);
 
     List<NoteDTO> getAllNotes();

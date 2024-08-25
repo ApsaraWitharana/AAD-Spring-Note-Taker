@@ -62,9 +62,20 @@ while (updateNote.hasNext()) { //hash -arry eke list size ek wenkm run wenwa
     }
 
     @Override
-    public boolean deleteNote(String noteId) {
-        System.out.println(noteId+"Deleted");
-        return true;
+    public void deleteNote(String noteId) {
+//        for (NoteDTO noteDTO :saveNoteTmp) {
+//            if (noteDTO.getNoteId().equals(noteId)) {
+//               saveNoteTmp.remove(noteDTO);
+//            }
+//        } //as a con current modification as a erro
+
+        ListIterator<NoteDTO> tmpList = saveNoteTmp.listIterator();
+        while (tmpList.hasNext()){
+            NoteDTO noteDTO = tmpList.next();
+            if (noteId.equals(noteDTO.getNoteId())){ //list eke tiyenm remove krnn
+                tmpList.remove();
+            }
+        }
     }
 
     @Override

@@ -1,6 +1,6 @@
 package lk.ijse.gdse68.notetraker.controller;
 
-import lk.ijse.gdse68.notetraker.bo.NoteBO;
+import lk.ijse.gdse68.notetraker.service.NoteService;
 import lk.ijse.gdse68.notetraker.dto.NoteDTO;
 
 import lombok.RequiredArgsConstructor;
@@ -15,13 +15,15 @@ import java.util.List;
 @RequestMapping("api/v1/notes")//component annotation  ek meta annotate wel tiyenne
 @RequiredArgsConstructor
 public class NoteController {
-    @Autowired
-    private  final NoteBO noteBO;
+    @Autowired //Automatically injects dependencies--externally inject krn ek dependency//
+    //why useing bean annotation - Explicitly defines beans and their lifecycle methods
+    // interface true ek looscuple wenwa -change krnwanm okkom change krnn on hinda mek krnne interface true -interface ekk agreement why-sevice ek impl krnne interface eken ne ehinda tnyi ek wenne
+
+    private final NoteService noteService;
    //TODO: CRUD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO note){
-
-        var saveData = noteBO.saveNote(note);
+        var saveData = noteService.saveNote(note);
         return ResponseEntity.ok(saveData);
 
         //TODO: Handle with BO
@@ -36,14 +38,14 @@ public class NoteController {
     }
     @GetMapping(value = "allnotes",produces = MediaType.APPLICATION_JSON_VALUE)
     public List<NoteDTO> getAllNote(){
-       return noteBO.getAllNotes();
+       return noteService.getAllNotes();
     }
 
     //get
     @GetMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public NoteDTO getNote(@PathVariable ("noteId") String noteId){
         System.out.println(noteId);
-        return noteBO.getSelectedNote(noteId);
+        return noteService.getSelectedNote(noteId);
 
     }
 
@@ -52,7 +54,8 @@ public class NoteController {
     public void updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
         System.out.println(noteId);
         System.out.println(note+ " Updated");
-        boolean isUpdated = noteBO.updateNote(noteId,note);
+        noteService.updateNote(noteId,note);
+
 
     }
 
@@ -60,7 +63,7 @@ public class NoteController {
     @DeleteMapping(value ="/{noteId}" )
     public void deleteNote(@PathVariable("noteId") String noteId ){
         System.out.println(noteId + "Delete");
-        boolean isDeleted = noteBO.deleteNote(noteId);
+        boolean isDeleted = noteService.deleteNote(noteId);
 
 
     }

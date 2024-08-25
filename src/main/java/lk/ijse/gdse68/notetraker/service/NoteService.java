@@ -1,12 +1,12 @@
-package lk.ijse.gdse68.notetraker.bo;
+package lk.ijse.gdse68.notetraker.service;
 
 import lk.ijse.gdse68.notetraker.dto.NoteDTO;
 
 import java.util.List;
 
-public sealed interface NoteBO permits NoteBOImpl {
+public sealed interface NoteService permits NoteServiceImpl {
     String saveNote(NoteDTO noteDTO);
-    boolean updateNote(String noteId,NoteDTO noteDTO);
+    void updateNote(String noteId,NoteDTO noteDTO);
     boolean deleteNote(String noteId);
     NoteDTO getSelectedNote(String noteId);
 

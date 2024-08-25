@@ -1,10 +1,12 @@
 package lk.ijse.gdse68.notetraker.config;
 
 import jakarta.persistence.EntityManagerFactory;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -22,11 +24,23 @@ import javax.sql.DataSource;
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class WepAppConfigRoot {
+    @Bean //cource code ek nati hinda bean danw nattm component dnna
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    }
     @Bean // source for bean definition
     public DataSource dataSource() {
+//
+//        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//        return builder.setType(EmbeddedDatabaseType.HSQL).build();//testing walat use krn db ekk//test context wlat use krnw //as note connect hibernate so won't to mysql
 
-        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        return builder.setType(EmbeddedDatabaseType.HSQL).build();
+        //driver manger data source -note connection pool
+     var dmds =  new DriverManagerDataSource();
+     dmds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+     dmds.setUrl("jdbc:mysql://localhost:3306/noteTrakerAAD68?createDatabaseIfNotExist=true");
+     dmds.setUsername("root");
+     dmds.setPassword("ijse@2001");
+     return dmds;
     }
 
     @Bean
@@ -37,7 +51,7 @@ public class WepAppConfigRoot {
 //
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.acme.domain");
+        factory.setPackagesToScan("lk.ijse.gdse68.notetraker.entity");
         factory.setDataSource(dataSource());
         return factory;
     }

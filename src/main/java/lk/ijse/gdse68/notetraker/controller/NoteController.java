@@ -5,6 +5,7 @@ import lk.ijse.gdse68.notetraker.dto.NoteDTO;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,9 @@ public class NoteController {
 
     }
 
+
     //update
+    @ResponseStatus(HttpStatus.NO_CONTENT)//204 n update,delete wenn status ekk
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public void updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
         System.out.println(noteId);
@@ -60,9 +63,12 @@ public class NoteController {
     }
 
     //delete
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(value ="/{noteId}" )
     public void deleteNote(@PathVariable("noteId") String noteId ){
         noteService.deleteNote(noteId);
+
+        //req-http://localhost:8080/note/api/v1/notes/NODE: c785fc62-8b06-4cdf-9f31-1226f1e98be6
 
 
     }

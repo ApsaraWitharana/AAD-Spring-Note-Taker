@@ -12,9 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-//@Transactional
+@Transactional
 @Service // service class ek manage krnw // spring wisin component annotation ek meta annotate krl tiyenne
-public final class NoteServiceImpl implements NoteService {
+public  class NoteServiceImpl implements NoteService {
 
     @Autowired
     private NoteDAO noteDAO;
@@ -38,7 +38,10 @@ public final class NoteServiceImpl implements NoteService {
         //TODO:SET DAO
         noteDTO.setNoteId(AppUtil.createNoteId());
         noteDAO.save(mapping.convertToEntity(noteDTO));
+        System.out.println(noteDTO);
         return "Note saved successfully with ID: " + noteDTO.getNoteId();
+
+        //req-http://localhost:8080/note/api/v1/notes
 
     }
 
@@ -120,9 +123,10 @@ public final class NoteServiceImpl implements NoteService {
 //        }
 //       return null;
   //  }
-
 //    @Override
 //    public List<NoteDTO> getAllNotes() {
 //        return saveNoteTmp;
 //    }
 }
+//jpa -abstract tiyenne
+//

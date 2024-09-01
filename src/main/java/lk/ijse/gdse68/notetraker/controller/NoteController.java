@@ -16,11 +16,23 @@ import java.util.List;
 @RequestMapping("api/v1/notes")//component annotation  ek meta annotate wel tiyenne
 @RequiredArgsConstructor
 public class NoteController {
+
     @Autowired //Automatically injects dependencies--externally inject krn ek dependency//
     //why useing bean annotation - Explicitly defines beans and their lifecycle methods
     // interface true ek looscuple wenwa -change krnwanm okkom change krnn on hinda mek krnne interface true -interface ekk agreement why-sevice ek impl krnne interface eken ne ehinda tnyi ek wenne
 
     private final NoteService noteService;
+
+    //TODO: helth check
+    @GetMapping("health")
+    public String healthCheck(){
+        return "Note traker is running";
+        //this is use to end point check //get req ekk withryi denn ona //application ek run wenwad blnn
+        //controller ekkt wada tiyenwanm health check dann ona
+        //req-http://localhost:8080/note/api/v1/notes/health
+        //resp=Note traker is running
+
+    }
    //TODO: CRUD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> createNote(@RequestBody NoteDTO note){

@@ -52,7 +52,21 @@ public  class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void deleteNote(String noteId) {
+    public boolean deleteNote(String noteId) {
+
+        //id is has or hasn't check
+        //and check this id details has the db
+        if (noteDAO.existsById(noteId)){
+            noteDAO.deleteById(noteId);
+            System.out.println("delete successfully!!");
+            return true;
+        }else {
+            System.out.println("delete UUnsuccessfully!!");
+            return false;
+
+        }
+
+
 
     }
 
@@ -69,6 +83,7 @@ public  class NoteServiceImpl implements NoteService {
         //    "priorityLevel": "P8",
         //    "createDate": 20240901
         //}
+
 
     }
 

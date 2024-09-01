@@ -1,7 +1,9 @@
 package lk.ijse.gdse68.notetraker.controller;
 
 import lk.ijse.gdse68.notetraker.dto.NoteDTO;
+import lk.ijse.gdse68.notetraker.dto.UserDTO;
 import lk.ijse.gdse68.notetraker.service.UserService;
+import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,6 +33,17 @@ public class UserController {
 
                 //TODO:handle profile pic - //string widiyt save krgnne
                 // saving to converting BASE64 ->> binary file converting to humon readable data
+
+            String base64ProfilePic =  AppUtil.toBase64ProfilePic(profilePic); // base64 widiyt convete krnwa eke string ek return krnwa
+            //bine the user object
+
+           var buildUserDTO = new UserDTO();
+           buildUserDTO.setFirstName(firstName);
+           buildUserDTO.setLastName(lastName);
+           buildUserDTO.setEmail(email);
+           buildUserDTO.setPassword(password);
+           buildUserDTO.setProfilePic(base64ProfilePic);
+
 
             }
 

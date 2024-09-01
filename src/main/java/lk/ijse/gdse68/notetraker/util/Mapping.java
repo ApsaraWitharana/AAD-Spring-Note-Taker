@@ -13,7 +13,7 @@ import java.util.List;
 public class Mapping {
     @Autowired
     private ModelMapper modelMapper;
-
+//why using modelmapper - db eke data save and get krnn mape krgnn thamyi use wenne dto converting entity and entity convert dto
     //matter of noteEntity and DTO
     public NoteDTO convertToDTO(NoteEntity note){ //entity type dto ek converte krnwa dto ekt
         return modelMapper.map(note,NoteDTO.class); //entity to dto converting

@@ -12,5 +12,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableJpaRepositories
 @EnableTransactionManagement
 public class WebAppConfig {
+    //direct interface wen nati  config danne
 
 }

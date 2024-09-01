@@ -3,6 +3,7 @@ package lk.ijse.gdse68.notetraker.service;
 import lk.ijse.gdse68.notetraker.dao.NoteDAO;
 import lk.ijse.gdse68.notetraker.dto.NoteDTO;
 
+import lk.ijse.gdse68.notetraker.entity.NoteEntity;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lk.ijse.gdse68.notetraker.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,22 @@ public  class NoteServiceImpl implements NoteService {
 
     @Override
     public List<NoteDTO> getAllNotes() {
-        return null;
+        //01
+//        List<NoteEntity> getAllNotes = noteDAO.findAll(); //convert dto to entity
+//        List<NoteDTO> noteDTOS = mapping.convertToDTO(getAllNotes);
+//        return noteDTOS;
+
+        //02
+           return mapping.convertToDTO(noteDAO.findAll()); //converting
+         //req -http://localhost:8080/note/api/v1/notes/allnotes
+        //resp-mine type- Application json -object array ekk resp wenne = >> ym kisi code ekk code base ek pennann widiy literal ek
+        // [{
+        //        "noteId": "NODE-4f2221cd-266a-4b5e-a30e-95a501e02fd1",
+        //        "noteTitle": "Good luck!!",
+        //        "noteDesc": "wshing your success",
+        //        "priorityLevel": "P8",
+        //        "createDate": 20240901
+        //    },]
     }
 
     //   @Override

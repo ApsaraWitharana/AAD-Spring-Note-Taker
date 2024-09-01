@@ -24,6 +24,8 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages ="lk.ijse.gdse68.notetraker" )
 @EnableTransactionManagement
 public class WepAppConfigRoot {
+    //direct interface wen config danne
+    //dao layer config tiyenne
     @Bean //cource code ek nati hinda bean danw nattm component dnna
     public ModelMapper modelMapper(){
         return new ModelMapper();
@@ -70,3 +72,4 @@ public class WepAppConfigRoot {
 //why using web application layer 2 - app config direct blanna  app config// data connection handle root config
 //configuration class - source for bean definition // kohend bean gnne mona package walinda //application eke configuration kohed hadann kiyl //bean is a spring object is a managing bean object
 //bean -spring t manage krnn puluwan objec hdnwa
+//SOC-SOLID DESIGN PRINCIPAL - // of consumer-adal de adal thanata

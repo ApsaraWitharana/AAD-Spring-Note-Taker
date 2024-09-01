@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
+
 @Transactional
 @Service // service class ek manage krnw // spring wisin component annotation ek meta annotate krl tiyenne
 public  class NoteServiceImpl implements NoteService {
@@ -47,7 +49,38 @@ public  class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void updateNote(String noteId, NoteDTO noteDTO) {
+    public boolean updateNote(String noteId, NoteDTO incomeNoteDto) {
+//handling null point exception to using -  Optional key word use
+         Optional<NoteEntity> tmpNoteEntity = noteDAO.findById(noteId);
+         if (!tmpNoteEntity.isPresent()){
+             //nathinam
+             return false;
+
+         }else {
+             //option type ek ob ek return krl ek set krgnnwa dto ekt
+             //thiyenm -incomeNoteDto ek return wenwa
+             //jpa wl update na ek krnne mem // nattm custom method ekk ghnn one
+             tmpNoteEntity.get().setNoteDesc(incomeNoteDto.getNoteDesc()); // value ek eliyt arn eket sete kranawa new value ek set krnwa
+             tmpNoteEntity.get().setNoteTitle(incomeNoteDto.getNoteTitle());
+             tmpNoteEntity.get().setCreateDate(incomeNoteDto.getCreateDate());
+             tmpNoteEntity.get().setPriorityLevel(incomeNoteDto.getPriorityLevel());
+           //note maintain body -http req-204
+
+             //req-http://localhost:8080/note/api/v1/notes/NODE-f55ef5a3-0076-445a-99f1-2836294bbd82
+             //{
+             //    "noteTitle":"Sopet sevices",
+             //    "noteDesc":"Pleace Come again!!",
+             //    "priorityLevel":"P14",
+             //    "createDate":"20240901"
+             //
+             //
+             //}
+             //resp-NoteDTO(noteId=null, noteTitle=Sopet sevices, noteDesc=Pleace Come again!!, priorityLevel=P14, createDate=20240901) Updated Successfully!!
+
+         }
+         return true;
+
+
 
     }
 
@@ -61,7 +94,7 @@ public  class NoteServiceImpl implements NoteService {
             System.out.println("delete successfully!!");
             return true;
         }else {
-            System.out.println("delete UUnsuccessfully!!");
+            System.out.println("delete Unsuccessfully!!");
             return false;
 
         }

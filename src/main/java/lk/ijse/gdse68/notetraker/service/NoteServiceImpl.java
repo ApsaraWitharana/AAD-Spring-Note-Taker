@@ -58,7 +58,18 @@ public  class NoteServiceImpl implements NoteService {
 
     @Override
     public NoteDTO getSelectedNote(String noteId) {
-        return null;
+        //unic consecrate -
+        //NoteEntity selectedNode = noteDAO.getReferenceById(noteId); //return to note entity
+        return mapping.convertToDTO(noteDAO.getReferenceById(noteId));//converte to dto
+        //req-http://localhost:8080/note/api/v1/notes/NODE-4f2221cd-266a-4b5e-a30e-95a501e02fd1
+        //resp={
+        //    "noteId": "NODE-4f2221cd-266a-4b5e-a30e-95a501e02fd1",
+        //    "noteTitle": "Good luck!!",
+        //    "noteDesc": "wshing your success",
+        //    "priorityLevel": "P8",
+        //    "createDate": 20240901
+        //}
+
     }
 
     @Override
@@ -79,6 +90,7 @@ public  class NoteServiceImpl implements NoteService {
         //        "priorityLevel": "P8",
         //        "createDate": 20240901
         //    },]
+        //how send json - //jackson databind dependency eken tamyi wenne - eken thamyi json convert krnne ek abstract   //  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     }
 
     //   @Override

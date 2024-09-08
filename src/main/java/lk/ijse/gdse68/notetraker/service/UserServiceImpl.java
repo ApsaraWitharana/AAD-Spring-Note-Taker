@@ -1,6 +1,5 @@
 package lk.ijse.gdse68.notetraker.service;
 
-import lk.ijse.gdse68.notetraker.dao.NoteDAO;
 import lk.ijse.gdse68.notetraker.dao.UserDAO;
 import lk.ijse.gdse68.notetraker.dto.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 @Transactional
@@ -75,9 +75,36 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserDTO> getAllUser() {
-        return null;
+    public List<UserDTO> getAllUsers() {
+        // Assuming you have a database connection and a User entity
+        List<UserEntity> users = userDAO.findAll(); // or a similar method to fetch all users
+
+        // Convert the list of User entities to a list of UserDTOs
+        List<UserDTO> userDTOs = new ArrayList<>();
+        for (UserEntity userEntity : users) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUserId(userEntity.getUserId());
+            userDTO.setFirstName(userEntity.getFirstName());
+            userDTO.setLastName(userEntity.getLastName());
+            userDTO.setPassword(userEntity.getPassword());
+            userDTO.setEmail(userEntity.getEmail());
+            userDTO.setProfilePic(userEntity.getProfilePic());
+            // Add other fields as needed
+            userDTOs.add(userDTO);
+        }
+
+        return userDTOs;
     }
+    //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
+    //resp-[
+    //    {
+    //        "userId": "USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf",
+    //        "firstName": "Sachini",
+    //        "lastName": "Apsara",
+    //        "email": "asachi@gmail.com",
+    //        "password": "1234",
+    //        "profilePic": "/9j/4AAQSkZJRgABAQAAAQABAAD/
+    //]
 }
 
 //500 - internal server error

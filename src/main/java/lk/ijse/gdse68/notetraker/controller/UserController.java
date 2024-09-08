@@ -10,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/users") //rest full ekk -end point ek
 @RequiredArgsConstructor
@@ -108,4 +110,16 @@ public class UserController {
     //req-http://localhost:8080/note/api/v1/users/USER-f4c124c9-c218-4438-93bc-a1a27cb25f1c
     //resp-User deleted successfully!!
 
+    // get user
+    @GetMapping("/{id}")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        // Call service to get all users
+        List<UserDTO> userDTOs = userService.getAllUsers();
+
+        if (!userDTOs.isEmpty()) {
+            return new ResponseEntity<>(userDTOs, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 }

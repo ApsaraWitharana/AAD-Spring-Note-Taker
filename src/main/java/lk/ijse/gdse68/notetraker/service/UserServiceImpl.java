@@ -11,8 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
 @Transactional
 @Service
 @RequiredArgsConstructor
@@ -33,29 +34,19 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUser(String userId, UserDTO userDTO) {
-// First, retrieve the existing user entity from the database
-        UserEntity existingUser = (UserEntity) userDAO.findAllById(Collections.singleton(userId));
-
-        // If the user is not found, return false
-        if (existingUser == null) {
+    public boolean updateUser(UserDTO userDTO) {
+        Optional<UserEntity> tmpUser = userDAO.findById(userDTO.getUserId());
+        if(!tmpUser.isPresent()){
             return false;
+        }else {
+            tmpUser.get().setFirstName(userDTO.getFirstName());
+            tmpUser.get().setLastName(userDTO.getLastName());
+            tmpUser.get().setEmail(userDTO.getEmail());
+            tmpUser.get().setPassword(userDTO.getPassword());
+            tmpUser.get().setProfilePic(userDTO.getProfilePic());
         }
-
-        // Update the existing user entity with the new data from the DTO
-        existingUser.setUserId(userDTO.getUserId());
-        existingUser.setFirstName(userDTO.getFirstName());
-        existingUser.setLastName(userDTO.getLastName());
-        existingUser.setEmail(userDTO.getEmail());
-        existingUser.setPassword(userDTO.getPassword());
-        existingUser.setProfilePic(userDTO.getProfilePic());
-        // ... update other fields as needed
-
-        // Save the updated user entity to the database
-        userDAO.save(existingUser);
-
-        // Return true to indicate that the update was successful
         return true;
+
     }
 
     @Override
@@ -95,8 +86,16 @@ public class UserServiceImpl implements UserService{
         }
 
         return userDTOs;
+
+        // 02 -kramay
+        // @Override
+        //    public List<UserDTO> getAllUsers() {
+        //        -return List.of();
+        //        List<UserEntity> getAllUsers = userDao.findAll();
+        //        return mapping.convertUserToDTOList(getAllUsers);
+        //    }
     }
-    //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
+    //req-http://localhost:8080/note/api/v1/users
     //resp-[
     //    {
     //        "userId": "USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf",
@@ -111,3 +110,4 @@ public class UserServiceImpl implements UserService{
 //500 - internal server error
 //404 -
 //201-created -res full
+//204-no data

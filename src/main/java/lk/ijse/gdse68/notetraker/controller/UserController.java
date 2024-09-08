@@ -54,38 +54,44 @@ public class UserController {
             }
 
             //update user
-    @PatchMapping("/{id}")
-            public ResponseEntity<String>updateUser(
-                    //set parameter
-                    @RequestPart("userId") String userId,
-                    @RequestPart("firstName") String firstName,
-                    @RequestPart("lastName") String lastName,
-                    @RequestPart("email") String email,
-                    @RequestPart("password") String password,
-                    @RequestPart("profilePic") String profilePic) {
+    @PatchMapping(value = "/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//            public ResponseEntity<String>updateUser(@PathVariable ("id") String id,UserDTO userDTO) {
+//                userService.updateUser(id,userDTO);
+//              boolean updateUserStatus = userService.updateUser(id, userDTO);
+//                if (updateUserStatus) {
+//                    return new ResponseEntity<>("User Update Successfully!!", HttpStatus.OK);
+//                } else {
+//                    return new ResponseEntity<>("User Update Failed!!", HttpStatus.INTERNAL_SERVER_ERROR);
+//                }
 
-
-
-                String base64ProfilePic =  AppUtil.toBase64ProfilePic(profilePic); // base64 widiyt convete krnwa eke string ek return krnwa
-                //bine the user object
-
-                UserDTO buildUserDTO = new UserDTO();
-                buildUserDTO.setUserId(userId);
-                buildUserDTO.setFirstName(firstName);
-                buildUserDTO.setLastName(lastName);
-                buildUserDTO.setEmail(email);
-                buildUserDTO.setPassword(password);
-                buildUserDTO.setProfilePic(base64ProfilePic);
-
-                //send to the service layer
-                boolean updateUserStatus = userService.updateUser(userId, buildUserDTO);
-
-                if (updateUserStatus) {
-                    return new ResponseEntity<>("User Update Successfully!!", HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>("User Update Failed!!", HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-            }
+                //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
+        //resp-User Update Successfully!!
+    public ResponseEntity<String> updateUser(
+            @PathVariable ("id") String id,
+            @RequestPart("updateFirstName") String updateFirstName,
+            @RequestPart ("updateLastName") String updateLastName,
+            @RequestPart ("updateEmail") String updateEmail,
+            @RequestPart ("updatePassword") String updatePassword,
+            @RequestPart ("updateProfilePic") String updateProfilePic
+    ){
+        String updateBase64ProfilePic = AppUtil.toBase64ProfilePic(updateProfilePic);
+        var updateUser = new UserDTO();
+        updateUser.setUserId(id);
+        updateUser.setFirstName(updateFirstName);
+        updateUser.setLastName(updateLastName);
+        updateUser.setPassword(updatePassword);
+        updateUser.setEmail(updateEmail);
+        updateUser.setProfilePic(updateBase64ProfilePic);
+        return userService.updateUser(updateUser)? new ResponseEntity<>(HttpStatus.NO_CONTENT): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+//        boolean isUpdate = userService.updateUser(updateUser);
+//
+//        if (isUpdate) {
+//            return new  ResponseEntity<>("User deleted successfully!!",HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+        //    }
 
             //delete user
 
@@ -112,7 +118,7 @@ public class UserController {
     //resp-User deleted successfully!!
 
     // get user
-    @GetMapping("/{id}")
+    @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         // Call service to get all users
         List<UserDTO> userDTOs = userService.getAllUsers();
@@ -122,6 +128,11 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
+        //02-kramay
+        //@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+        //    public List<UserDTO> getAllUsers(){
+        //        return userService.getAllUsers();
+        //    }
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO getSelectedUser(@PathVariable ("id") String userId) {

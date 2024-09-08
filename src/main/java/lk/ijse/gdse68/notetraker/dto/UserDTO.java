@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,5 +19,5 @@ public class UserDTO {
     private String email;
     private String password;
     private String profilePic;
-    private List<NoteDTO> notes;
+    private List<NoteDTO> notes = new ArrayList<>();
 }

@@ -71,7 +71,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO getSelectedUser(String usrId) {
-        return null;
+       UserEntity userEntityByUserId =userDAO.getUserEntityByUserId(usrId);
+       return mapping.convertToUserDTO(userEntityByUserId);
     }
 
     @Override

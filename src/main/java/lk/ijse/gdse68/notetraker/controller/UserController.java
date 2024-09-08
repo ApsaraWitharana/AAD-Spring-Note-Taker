@@ -54,6 +54,7 @@ public class UserController {
             }
 
             //update user
+    @PatchMapping("/{id}")
             public ResponseEntity<String>updateUser(
                     //set parameter
                     @RequestPart("userId") String userId,
@@ -122,4 +123,11 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getSelectedUser(@PathVariable ("id") String userId) {
+        return userService.getSelectedUser(userId);
+
+        //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
+    }
+
 }

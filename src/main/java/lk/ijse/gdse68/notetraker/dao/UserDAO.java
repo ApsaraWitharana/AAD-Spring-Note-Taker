@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserDAO extends JpaRepository<UserEntity,String> {
+   UserEntity getUserEntityByUserId(String userId);//data jpa wlin method ek coll krnw
+
+
 }

@@ -6,7 +6,7 @@ import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 import java.util.List;
 
 public interface UserService {
-    String saveUser(UserDTO userDTO);
+    void saveUser(UserDTO userDTO);
 
 
     void updateUser(UserDTO userDTO);

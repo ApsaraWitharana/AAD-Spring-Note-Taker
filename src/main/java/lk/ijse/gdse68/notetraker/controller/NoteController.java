@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.notetraker.controller;
 
+import lk.ijse.gdse68.notetraker.exception.NoteNoteFound;
 import lk.ijse.gdse68.notetraker.service.NoteService;
 import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
 
@@ -35,9 +36,16 @@ public class NoteController {
     }
    //TODO: CRUD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createNote(@RequestBody NoteDTO note){
-        var saveData = noteService.saveNote(note);
-        return ResponseEntity.ok(saveData);
+    public ResponseEntity<Void> createNote(@RequestBody NoteDTO note){
+        try {
+            noteService.saveNote(note);
+            return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (NoteNoteFound e){
+            return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+
+
 
         //TODO: Handle with BO
 //        note.setNoteId(ApiUtil.createNoteId());
@@ -66,20 +74,16 @@ public class NoteController {
     //update
     @ResponseStatus(HttpStatus.NO_CONTENT)//204 n update,delete wenn status ekk
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
-        System.out.println(noteId);
-        System.out.println(note+ " Updated Successfully!!");
+    public ResponseEntity<Void> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
 
-        try {
-            if (noteService.updateNote(noteId,note)) {
+            try {
+                noteService.updateNote(noteId, note);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-            } else {
+            }catch (NoteNoteFound e){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }catch (Exception e){
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
 
     }

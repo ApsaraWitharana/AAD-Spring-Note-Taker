@@ -5,6 +5,7 @@ import lk.ijse.gdse68.notetraker.customObj.UserResponse;
 import lk.ijse.gdse68.notetraker.dao.UserDAO;
 import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
+import lk.ijse.gdse68.notetraker.exception.DataPersistFailedException;
 import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lk.ijse.gdse68.notetraker.util.Mapping;
@@ -30,13 +31,11 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public String saveUser(UserDTO userDTO) {
+    public void saveUser(UserDTO userDTO) {
     userDTO.setUserId(AppUtil.createUserId());//id generate
         UserEntity savedUser = userDAO.save(mapping.convertToUserEntity(userDTO));//pass krnw dao layer ekt //ek mapp krl dto convert krnw entity widiyt it passe ek db ekt pass krnw
-        if (savedUser != null && savedUser.getUserId() !=null){
-            return "User Save Successfully!!";
-        }else {
-            return "User Save UnSuccessfully!!";
+        if(savedUser == null && savedUser.getUserId() == null ) {
+            throw new DataPersistFailedException("Cannot data saved");
         }
 
     }

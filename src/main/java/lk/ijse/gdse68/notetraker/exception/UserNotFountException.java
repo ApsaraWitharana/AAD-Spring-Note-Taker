@@ -12,4 +12,5 @@ public class UserNotFountException extends RuntimeException{
     public UserNotFountException(String message, Throwable cause) {
 
     }
+
 }

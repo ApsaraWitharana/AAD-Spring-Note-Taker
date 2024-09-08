@@ -4,6 +4,7 @@ import lk.ijse.gdse68.notetraker.customObj.UserResponse;
 import lk.ijse.gdse68.notetraker.dao.UserDAO;
 import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
+import lk.ijse.gdse68.notetraker.exception.DataPersistFailedException;
 import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.service.UserService;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
@@ -26,7 +27,7 @@ public class UserController {
     //Save user
     //multipart form data- json concept- using file upload-req ek part widiyt enne ek body+header //large file upload krnn use we->using binary file handle
             @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//client ge paththen req eddi ek ewanne consumes widiyt -ek server ek enne server ekt  //maltipar form data handle krnn use wenne //
-                public ResponseEntity<String> saveUser(
+                public ResponseEntity<Void> saveUser(
                     //set parameter
                     //user client gen req enne multy part widiyt en ek dagnn tmyi  @RequestPart("firstName") use une
                     @RequestPart("firstName") String firstName,
@@ -38,19 +39,23 @@ public class UserController {
                 //TODO:handle profile pic - //string widiyt save krgnne
                 // saving to converting BASE64 ->> binary file converting to humon readable data
 
-            String base64ProfilePic =  AppUtil.toBase64ProfilePic(profilePic); // base64 widiyt convete krnwa eke string ek return krnwa
-            //bine the user object//pic save- link,base64,bite array widiyt save krnn puluwn binary files test widiyt db save krnn //bite-string convert //data trasfer krnn lesi -base64 -string widiyt enne
+                try {
+                    String base64ProfilePic =  AppUtil.toBase64ProfilePic(profilePic); // base64 widiyt convete krnwa eke string ek return krnwa
+                    //bine the user object//pic save- link,base64,bite array widiyt save krnn puluwn binary files test widiyt db save krnn //bite-string convert //data trasfer krnn lesi -base64 -string widiyt enne
 
-           UserDTO buildUserDTO = new UserDTO();
-           buildUserDTO.setFirstName(firstName);
-           buildUserDTO.setLastName(lastName);
-           buildUserDTO.setEmail(email);
-           buildUserDTO.setPassword(password);
-           buildUserDTO.setProfilePic(base64ProfilePic);
-           var saveStatus = userService.saveUser(buildUserDTO);
-           if (saveStatus.contains("User Save Successfully!!")){
-               return new ResponseEntity<>(HttpStatus.CONTINUE);
-           }else {
+                    UserDTO buildUserDTO = new UserDTO();
+                    buildUserDTO.setFirstName(firstName);
+                    buildUserDTO.setLastName(lastName);
+                    buildUserDTO.setEmail(email);
+                    buildUserDTO.setPassword(password);
+                    buildUserDTO.setProfilePic(base64ProfilePic);
+                    userService.saveUser(buildUserDTO);
+                    return new ResponseEntity<>(HttpStatus.CONTINUE);
+                }catch (DataPersistFailedException e){
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+                }catch (Exception e){
+
                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
            }
            //send to the service layer

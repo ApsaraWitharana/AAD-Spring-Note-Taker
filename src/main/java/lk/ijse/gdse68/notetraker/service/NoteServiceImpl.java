@@ -4,6 +4,7 @@ import lk.ijse.gdse68.notetraker.dao.NoteDAO;
 import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
 
 import lk.ijse.gdse68.notetraker.entity.NoteEntity;
+import lk.ijse.gdse68.notetraker.exception.NoteNoteFound;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lk.ijse.gdse68.notetraker.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +48,13 @@ public  class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public boolean updateNote(String noteId, NoteDTO incomeNoteDto) {
+    public void updateNote(String noteId, NoteDTO incomeNoteDto) {
 //handling null point exception to using -  Optional key word use
          Optional<NoteEntity> tmpNoteEntity = noteDAO.findById(noteId);
          if (!tmpNoteEntity.isPresent()){
              //nathinam
-             return false;
+
+             throw new NoteNoteFound("Note note Found");
 
          }else {
              //option type ek ob ek return krl ek set krgnnwa dto ekt
@@ -76,7 +78,7 @@ public  class NoteServiceImpl implements NoteService {
              //resp-NoteDTO(noteId=null, noteTitle=Sopet sevices, noteDesc=Pleace Come again!!, priorityLevel=P14, createDate=20240901) Updated Successfully!!
 
          }
-         return true;
+
 
 
 

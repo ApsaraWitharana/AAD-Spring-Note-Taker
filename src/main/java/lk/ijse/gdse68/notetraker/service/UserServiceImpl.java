@@ -29,8 +29,13 @@ public class UserServiceImpl implements UserService{
     @Override
     public String saveUser(UserDTO userDTO) {
     userDTO.setUserId(AppUtil.createUserId());//id generate
-   userDAO.save(mapping.convertToUserEntity(userDTO));//pass krnw dao layer ekt //ek mapp krl dto convert krnw entity widiyt it passe ek db ekt pass krnw
-   return "User Save Successfully!!";
+        UserEntity savedUser = userDAO.save(mapping.convertToUserEntity(userDTO));//pass krnw dao layer ekt //ek mapp krl dto convert krnw entity widiyt it passe ek db ekt pass krnw
+        if (savedUser != null && savedUser.getUserId() !=null){
+            return "User Save Successfully!!";
+        }else {
+            return "User Save UnSuccessfully!!";
+        }
+
     }
 
     @Override

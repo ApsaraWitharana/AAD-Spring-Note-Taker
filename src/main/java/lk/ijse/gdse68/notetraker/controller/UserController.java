@@ -43,9 +43,14 @@ public class UserController {
            buildUserDTO.setEmail(email);
            buildUserDTO.setPassword(password);
            buildUserDTO.setProfilePic(base64ProfilePic);
-
+           var saveStatus = userService.saveUser(buildUserDTO);
+           if (saveStatus.contains("User Save Successfully!!")){
+               return new ResponseEntity<>(HttpStatus.CONTINUE);
+           }else {
+               return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+           }
            //send to the service layer
-             return new ResponseEntity<>( userService.saveUser(buildUserDTO), HttpStatus.CREATED); //send msg and resp
+           //  return new ResponseEntity<>( userService.saveUser(buildUserDTO), HttpStatus.CREATED); //send msg and resp
 
   //req-http://localhost:8080/note/api/v1/users
    //set data - form data eke danne//pic ek file wlt denne

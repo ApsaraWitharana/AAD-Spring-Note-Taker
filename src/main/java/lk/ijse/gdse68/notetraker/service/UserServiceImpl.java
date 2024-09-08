@@ -3,6 +3,7 @@ package lk.ijse.gdse68.notetraker.service;
 import lk.ijse.gdse68.notetraker.dao.UserDAO;
 import lk.ijse.gdse68.notetraker.dto.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
+import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lk.ijse.gdse68.notetraker.util.Mapping;
 import lombok.RequiredArgsConstructor;
@@ -39,10 +40,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean updateUser(UserDTO userDTO) {
+    public void updateUser(UserDTO userDTO) {
         Optional<UserEntity> tmpUser = userDAO.findById(userDTO.getUserId());
         if(!tmpUser.isPresent()){
-            return false;
+           throw new UserNotFountException("User Not found!");
         }else {
             tmpUser.get().setFirstName(userDTO.getFirstName());
             tmpUser.get().setLastName(userDTO.getLastName());
@@ -50,17 +51,17 @@ public class UserServiceImpl implements UserService{
             tmpUser.get().setPassword(userDTO.getPassword());
             tmpUser.get().setProfilePic(userDTO.getProfilePic());
         }
-        return true;
+
 
     }
 
     @Override
-    public boolean deleteUser(String userId) {
+    public void deleteUser(String userId) {
             if (userDAO.existsById(userId)) {
                userDAO.deleteById(userId);
-                return true;
+
             } else {
-                return false; // User doesn't exist
+
             }
         }
 

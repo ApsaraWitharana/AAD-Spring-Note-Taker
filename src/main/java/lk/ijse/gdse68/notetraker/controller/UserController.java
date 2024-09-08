@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.notetraker.controller;
 
 import lk.ijse.gdse68.notetraker.dto.UserDTO;
+import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.service.UserService;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
@@ -60,18 +61,9 @@ public class UserController {
 
             //update user
     @PatchMapping(value = "/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//            public ResponseEntity<String>updateUser(@PathVariable ("id") String id,UserDTO userDTO) {
-//                userService.updateUser(id,userDTO);
-//              boolean updateUserStatus = userService.updateUser(id, userDTO);
-//                if (updateUserStatus) {
-//                    return new ResponseEntity<>("User Update Successfully!!", HttpStatus.OK);
-//                } else {
-//                    return new ResponseEntity<>("User Update Failed!!", HttpStatus.INTERNAL_SERVER_ERROR);
-//                }
-
                 //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
         //resp-User Update Successfully!!
-    public ResponseEntity<String> updateUser(
+    public ResponseEntity<Void> updateUser(
             @PathVariable ("id") String id,
             @RequestPart("updateFirstName") String updateFirstName,
             @RequestPart ("updateLastName") String updateLastName,
@@ -79,24 +71,25 @@ public class UserController {
             @RequestPart ("updatePassword") String updatePassword,
             @RequestPart ("updateProfilePic") String updateProfilePic
     ){
-        String updateBase64ProfilePic = AppUtil.toBase64ProfilePic(updateProfilePic);
-        var updateUser = new UserDTO();
-        updateUser.setUserId(id);
-        updateUser.setFirstName(updateFirstName);
-        updateUser.setLastName(updateLastName);
-        updateUser.setPassword(updatePassword);
-        updateUser.setEmail(updateEmail);
-        updateUser.setProfilePic(updateBase64ProfilePic);
-        return userService.updateUser(updateUser)? new ResponseEntity<>(HttpStatus.NO_CONTENT): new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                try {
+                    String updateBase64ProfilePic = AppUtil.toBase64ProfilePic(updateProfilePic);
+                    var updateUser = new UserDTO();
+                    updateUser.setUserId(id);
+                    updateUser.setFirstName(updateFirstName);
+                    updateUser.setLastName(updateLastName);
+                    updateUser.setPassword(updatePassword);
+                    updateUser.setEmail(updateEmail);
+                    updateUser.setProfilePic(updateBase64ProfilePic);
+                    userService.updateUser(updateUser);
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }catch (UserNotFountException e){
+                    return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }catch (Exception e ){
+                    return  new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+
     }
-//        boolean isUpdate = userService.updateUser(updateUser);
-//
-//        if (isUpdate) {
-//            return new  ResponseEntity<>("User deleted successfully!!",HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-        //    }
+
 
             //delete user
 

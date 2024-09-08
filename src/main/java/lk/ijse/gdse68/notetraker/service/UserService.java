@@ -12,4 +12,5 @@ public interface UserService {
     UserDTO getSelectedUser(String usrId);
 
     List<UserDTO> getAllUser();
+
 }

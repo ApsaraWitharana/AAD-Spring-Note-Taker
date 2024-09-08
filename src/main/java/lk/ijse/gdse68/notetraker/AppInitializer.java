@@ -28,7 +28,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) { //// conveyance ekk widiyt tempery folder ek denne
         String tempDir = System.getProperty("java.io.tmpdir"); //temper directory ek arn ek assign krnne
-        registration.setMultipartConfig(new MultipartConfigElement(tempDir));
+        registration.setMultipartConfig(new MultipartConfigElement(tempDir)); //temporary file location -process krnn gnn thawakalika locate ek
     }
 
 }

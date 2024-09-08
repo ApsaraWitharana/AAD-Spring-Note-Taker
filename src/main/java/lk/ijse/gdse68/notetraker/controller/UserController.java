@@ -1,6 +1,9 @@
 package lk.ijse.gdse68.notetraker.controller;
 
-import lk.ijse.gdse68.notetraker.dto.UserDTO;
+import lk.ijse.gdse68.notetraker.customObj.UserResponse;
+import lk.ijse.gdse68.notetraker.dao.UserDAO;
+import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
+import lk.ijse.gdse68.notetraker.entity.UserEntity;
 import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.service.UserService;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
@@ -104,13 +107,11 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable ("id")String id) {
         // Call service to delete the user by id//resp-return 204
         //resp ek stander widiyt ywnn tmyi response states use krnne
-        boolean isDeleted = userService.deleteUser(id);
-
-        if (isDeleted) {
+            userService.deleteUser(id);
             return new  ResponseEntity<>("User deleted successfully!!",HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
+
+
     }
     //req-http://localhost:8080/note/api/v1/users/USER-f4c124c9-c218-4438-93bc-a1a27cb25f1c
     //resp-User deleted successfully!!
@@ -133,7 +134,7 @@ public class UserController {
         //    }
     }
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO getSelectedUser(@PathVariable ("id") String userId) {
+    public UserResponse getSelectedUser(@PathVariable ("id") String userId) {
         return userService.getSelectedUser(userId);
 
         //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf

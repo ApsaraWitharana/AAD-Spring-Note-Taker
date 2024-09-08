@@ -1,7 +1,7 @@
 package lk.ijse.gdse68.notetraker.util;
 
-import lk.ijse.gdse68.notetraker.dto.NoteDTO;
-import lk.ijse.gdse68.notetraker.dto.UserDTO;
+import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
+import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.NoteEntity;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
 import org.modelmapper.ModelMapper;
@@ -9,7 +9,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Component

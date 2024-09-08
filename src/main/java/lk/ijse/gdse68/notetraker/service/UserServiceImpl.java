@@ -1,7 +1,9 @@
 package lk.ijse.gdse68.notetraker.service;
 
+import lk.ijse.gdse68.notetraker.customObj.UserErrorResponse;
+import lk.ijse.gdse68.notetraker.customObj.UserResponse;
 import lk.ijse.gdse68.notetraker.dao.UserDAO;
-import lk.ijse.gdse68.notetraker.dto.UserDTO;
+import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 import lk.ijse.gdse68.notetraker.entity.UserEntity;
 import lk.ijse.gdse68.notetraker.exception.UserNotFountException;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
@@ -67,9 +69,19 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public UserDTO getSelectedUser(String usrId) {
-       UserEntity userEntityByUserId =userDAO.getUserEntityByUserId(usrId);
-       return mapping.convertToUserDTO(userEntityByUserId);
+    public UserResponse getSelectedUser(String usrId) {
+        if( userDAO.existsById(usrId)){
+            UserEntity userEntityByUserId =userDAO.getUserEntityByUserId(usrId);
+            return mapping.convertToUserDTO(userEntityByUserId);
+        }else {
+            return new UserErrorResponse(0,"User not found!!"); //(0,"User not found!!")-ekm project eke language 2/3 k use weddi mek dnw error handle krnn
+        }
+        //waradi code ekk awam mek return wenwa
+//{
+//    "errorCode": 0,
+//    "errorMassage": "User not found!!"
+//}
+
     }
 
     @Override

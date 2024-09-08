@@ -1,7 +1,7 @@
 package lk.ijse.gdse68.notetraker.service;
 
 import lk.ijse.gdse68.notetraker.dao.NoteDAO;
-import lk.ijse.gdse68.notetraker.dto.NoteDTO;
+import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
 
 import lk.ijse.gdse68.notetraker.entity.NoteEntity;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
 
 @Transactional

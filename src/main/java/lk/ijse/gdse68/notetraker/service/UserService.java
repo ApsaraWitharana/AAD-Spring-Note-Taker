@@ -1,6 +1,7 @@
 package lk.ijse.gdse68.notetraker.service;
 
-import lk.ijse.gdse68.notetraker.dto.UserDTO;
+import lk.ijse.gdse68.notetraker.customObj.UserResponse;
+import lk.ijse.gdse68.notetraker.dto.iml.UserDTO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
     void updateUser(UserDTO userDTO);
 
     void deleteUser(String userId);
-    UserDTO getSelectedUser(String usrId);
+    UserResponse getSelectedUser(String usrId);
 
 
     List<UserDTO> getAllUsers();

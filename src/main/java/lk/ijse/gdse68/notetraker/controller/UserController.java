@@ -104,11 +104,19 @@ public class UserController {
 
     // DELETE mapping to delete a user by their id
     @DeleteMapping("/{id}") //path variable
-    public ResponseEntity<String> deleteUser(@PathVariable ("id")String id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable ("id")String id) {
         // Call service to delete the user by id//resp-return 204
         //resp ek stander widiyt ywnn tmyi response states use krnne
+        try {
             userService.deleteUser(id);
-            return new  ResponseEntity<>("User deleted successfully!!",HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }catch (UserNotFountException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+           // return new  ResponseEntity<>("User deleted successfully!!",HttpStatus.OK);
 
 
 

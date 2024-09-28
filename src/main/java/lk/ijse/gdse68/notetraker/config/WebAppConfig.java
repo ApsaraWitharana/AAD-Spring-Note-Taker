@@ -5,7 +5,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
@@ -20,5 +22,13 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 )
 public class WebAppConfig {
     //direct interface wen nati  config danne
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/**") // This allows CORS for all endpoints
+//                .allowedOrigins("http://localhost:63343") // Allow only your frontend domain
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH") // Specify allowed HTTP methods
+//                .allowedHeaders("*") // Allow all headers
+//                .allowCredentials(true);
+//    }
 
 }

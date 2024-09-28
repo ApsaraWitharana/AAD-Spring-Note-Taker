@@ -10,6 +10,7 @@ import lk.ijse.gdse68.notetraker.service.UserService;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/users") //rest full ekk -end point ek
 @RequiredArgsConstructor
@@ -72,24 +74,29 @@ public class UserController {
                 //req-http://localhost:8080/note/api/v1/users/USER-0b56f7ac-b5ea-4051-be70-31c64f87fdbf
         //resp-User Update Successfully!!
     public ResponseEntity<Void> updateUser(
-            @PathVariable ("id") String id,
+
             @RequestPart("updateFirstName") String updateFirstName,
             @RequestPart ("updateLastName") String updateLastName,
             @RequestPart ("updateEmail") String updateEmail,
             @RequestPart ("updatePassword") String updatePassword,
-            @RequestPart ("updateProfilePic") String updateProfilePic
+            @RequestPart ("updateProfilePic") String updateProfilePic,
+            @PathVariable ("id") String id
     ){
                 try {
                     String updateBase64ProfilePic = AppUtil.toBase64ProfilePic(updateProfilePic);
-                    var updateUser = new UserDTO();
-                    updateUser.setUserId(id);
-                    updateUser.setFirstName(updateFirstName);
-                    updateUser.setLastName(updateLastName);
-                    updateUser.setPassword(updatePassword);
-                    updateUser.setEmail(updateEmail);
-                    updateUser.setProfilePic(updateBase64ProfilePic);
-                    userService.updateUser(updateUser);
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+                    UserDTO buildUserDTO = new UserDTO();
+                    buildUserDTO.setUserId(id);
+                    buildUserDTO.setFirstName(updateFirstName);
+                    buildUserDTO.setLastName(updateLastName);
+                    buildUserDTO.setPassword(updatePassword);
+                    buildUserDTO.setEmail(updateEmail);
+                    buildUserDTO.setProfilePic(updateBase64ProfilePic);
+
+                    // Perform update logic, replace this with actual service logic
+                    userService.updateUser(buildUserDTO);
+
+                    return new ResponseEntity<>(HttpStatus.OK);
                 }catch (UserNotFountException e){
                     return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }catch (Exception e ){

@@ -16,7 +16,7 @@ This is a Spring Boot application designed for tracking user notes, which allows
 - **Database**: MySQL
 - **Testing**: Postman
 - **Build Tool**: Maven
-- **Java Version**: 11+
+- **Java Version**: 17
 - **Dependencies**:
   - Spring Boot Starter Web
   - Spring Boot Starter Data JPA

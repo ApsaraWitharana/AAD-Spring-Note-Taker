@@ -79,12 +79,12 @@ public class NoteController {
 
 
     //update
-    @ResponseStatus(HttpStatus.NO_CONTENT)//204 n update,delete wenn status ekk
+//    @ResponseStatus(HttpStatus.NO_CONTENT)//204 n update,delete wenn status ekk
     @PatchMapping(value = "/{noteId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateNote(@PathVariable ("noteId") String noteId, @RequestBody NoteDTO note) {
 
         try {
-            if (note == null && (noteId == null || note.equals(""))) {
+            if (note == null && (noteId == null || noteId.isEmpty())) {
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
             try {

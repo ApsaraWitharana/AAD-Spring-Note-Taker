@@ -24,9 +24,13 @@ public class Mapping {
         return modelMapper.map(dto,NoteEntity.class); //entity to dto converting
     }
 
-    public List<NoteDTO> convertToDTO(List<NoteEntity> notes) { //create dto list and convert to entity list
-        return modelMapper.map(notes, List.class); //
+    public List<NoteDTO> convertToDTO(List<NoteEntity> noteEntities) {
+        return modelMapper.map(noteEntities, new TypeToken<List<NoteDTO>>() {}.getType());
     }
+
+//    public List<NoteDTO> convertToDTO(List<NoteEntity> notes) { //create dto list and convert to entity list
+//        return modelMapper.map(notes, List.class); //
+//    }
 
     //TODO: USER MAPPING
     //User matters mapping

@@ -39,6 +39,12 @@ This is a Spring Boot application designed for tracking user notes, which allows
 1. Create a new database in MySQL:
    ```sql
    CREATE DATABASE notetracker;
+   CREATE TABLE noteTraker (
+    noteId VARCHAR(15) PRIMARY KEY,
+    noteTitle VARCHAR(255) NOT NULL,
+    noteDesc VARCHAR(255) NOT NULL,
+    priorityLevel VARCHAR(255) NOT NULL,
+    createDate BIGINT NOT NULL 
 
 
 ### post man document- https://documenter.getpostman.com/view/35385905/2sAXjF8aZW

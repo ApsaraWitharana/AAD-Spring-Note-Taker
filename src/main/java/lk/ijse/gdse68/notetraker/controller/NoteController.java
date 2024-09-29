@@ -100,17 +100,15 @@ public class NoteController {
 
     @DeleteMapping(value ="/{noteId}" )
   //  ResponseEntity<String> - is object - using send client to resp -msg and status code  in details dewal ywnn use krnne jenaric ekk apit ona data type dgnn
-    public ResponseEntity<String> deleteNote(@PathVariable("noteId") String noteId ){
+    public ResponseEntity<Void> deleteNote(@PathVariable("noteId") String noteId ){
        // noteService.deleteNote(noteId) ? new ResponseEntity<>(HttpStatus.NO_CONTENT): new ResponseEntity<>(HttpStatus.BAD_REQUEST) // boolean ekk kin check krn hind mem dnne //no content 204-http
         try {
-            if (noteService.deleteNote(noteId)) {
+            noteService.deleteNote(noteId);
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (NoteNoteFound e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         //this is stander for res full!! - Advantage to res full -
 

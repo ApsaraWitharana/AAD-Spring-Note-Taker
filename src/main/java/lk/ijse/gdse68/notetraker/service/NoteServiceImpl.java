@@ -94,18 +94,15 @@ public  class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public boolean deleteNote(String noteId) {
-
+    public void deleteNote(String noteId) {
+//ofshional tipe reference null point handle krnn
         //id is has or hasn't check
         //and check this id details has the db
-        if (noteDAO.existsById(noteId)){
-            noteDAO.deleteById(noteId);
-            System.out.println("delete successfully!!");
-            return true;
+        Optional<NoteEntity> findId= noteDAO.findById(noteId);
+        if (!findId.isPresent()){
+            throw new NoteNoteFound("Note note found");
         }else {
-            System.out.println("delete Unsuccessfully!!");
-            return false;
-
+           noteDAO.deleteById(noteId);
         }
 
 

@@ -1,5 +1,7 @@
 package lk.ijse.gdse68.notetraker.service;
 
+import lk.ijse.gdse68.notetraker.customObj.NoteErrorResponse;
+import lk.ijse.gdse68.notetraker.customObj.NoteResponse;
 import lk.ijse.gdse68.notetraker.dao.NoteDAO;
 import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
 
@@ -111,10 +113,15 @@ public  class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public NoteDTO getSelectedNote(String noteId) {
+    public NoteResponse getSelectedNote(String noteId) {
+        if (noteDAO.existsById(noteId)){
+            return mapping.convertToDTO(noteDAO.getReferenceById(noteId));//converte to dto
+
+        }else {
+            return new NoteErrorResponse(0,"Note not found");
+        }
         //unic consecrate -
         //NoteEntity selectedNode = noteDAO.getReferenceById(noteId); //return to note entity
-        return mapping.convertToDTO(noteDAO.getReferenceById(noteId));//converte to dto
         //req-http://localhost:8080/note/api/v1/notes/NODE-4f2221cd-266a-4b5e-a30e-95a501e02fd1
         //resp={
         //    "noteId": "NODE-4f2221cd-266a-4b5e-a30e-95a501e02fd1",

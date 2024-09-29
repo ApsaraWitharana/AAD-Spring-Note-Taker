@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
     public void saveUser(UserDTO userDTO) {
     userDTO.setUserId(AppUtil.createUserId());//id generate
         UserEntity savedUser = userDAO.save(mapping.convertToUserEntity(userDTO));//pass krnw dao layer ekt //ek mapp krl dto convert krnw entity widiyt it passe ek db ekt pass krnw
-        if(savedUser == null && savedUser.getUserId() == null ) {
+        if(savedUser == null ) {
             throw new DataPersistFailedException("Cannot data saved");
         }
 

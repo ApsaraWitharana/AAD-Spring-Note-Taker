@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class UserController {
     private final UserService userService;
 
     //Save user
+    //binary file req ekk ewddi use krnne multipart form data widiyta // mek json widiyt ewnwnm ek convert krla ona ewann
     //multipart form data- json concept- using file upload-req ek part widiyt enne ek body+header //large file upload krnn use we->using binary file handle
             @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)//client ge paththen req eddi ek ewanne consumes widiyt -ek server ek enne server ekt  //maltipar form data handle krnn use wenne //
                 public ResponseEntity<Void> saveUser(
@@ -36,12 +38,17 @@ public class UserController {
                     @RequestPart("lastName") String lastName,
                     @RequestPart("email") String email,
                     @RequestPart("password") String password,
-                    @RequestPart("profilePic") String profilePic) {
+                    @RequestPart("profilePic") MultipartFile profilePic) {
+//MultipartFile - spring fram work eken enne
+                //1. converting byte collection
+                //2. converting byte collection toBase64ProfilePic
 
                 //TODO:handle profile pic - //string widiyt save krgnne
                 // saving to converting BASE64 ->> binary file converting to humon readable data
 
                 try {
+                    // set byte converting array - 01
+//                    byte [] imageByteCollection =  profilePic.getBytes();
                     String base64ProfilePic =  AppUtil.toBase64ProfilePic(profilePic); // base64 widiyt convete krnwa eke string ek return krnwa
                     //bine the user object//pic save- link,base64,bite array widiyt save krnn puluwn binary files test widiyt db save krnn //bite-string convert //data trasfer krnn lesi -base64 -string widiyt enne
 
@@ -79,11 +86,13 @@ public class UserController {
             @RequestPart ("updateLastName") String updateLastName,
             @RequestPart ("updateEmail") String updateEmail,
             @RequestPart ("updatePassword") String updatePassword,
-            @RequestPart ("updateProfilePic") String updateProfilePic,
+            @RequestPart ("updateProfilePic") MultipartFile updateprofilePic,
             @PathVariable ("id") String id
     ){
                 try {
-                    String updateBase64ProfilePic = AppUtil.toBase64ProfilePic(updateProfilePic);
+                    // set byte converting array - 01
+//                    byte [] imageByteCollection =  updateprofilePic.getBytes();
+                    String base64ProfilePic =  AppUtil.toBase64ProfilePic(updateprofilePic);
 
                     UserDTO buildUserDTO = new UserDTO();
                     buildUserDTO.setUserId(id);
@@ -91,7 +100,7 @@ public class UserController {
                     buildUserDTO.setLastName(updateLastName);
                     buildUserDTO.setPassword(updatePassword);
                     buildUserDTO.setEmail(updateEmail);
-                    buildUserDTO.setProfilePic(updateBase64ProfilePic);
+                    buildUserDTO.setProfilePic(base64ProfilePic);
 
                     // Perform update logic, replace this with actual service logic
                     userService.updateUser(buildUserDTO);

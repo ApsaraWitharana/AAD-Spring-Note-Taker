@@ -1,5 +1,6 @@
 package lk.ijse.gdse68.notetraker.controller;
 
+import lk.ijse.gdse68.notetraker.exception.DataPersistFailedException;
 import lk.ijse.gdse68.notetraker.exception.NoteNoteFound;
 import lk.ijse.gdse68.notetraker.service.NoteService;
 import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
@@ -25,25 +26,30 @@ public class NoteController {
     private final NoteService noteService;
 
     //TODO: helth check
-    @GetMapping("health")
-    public String healthCheck(){
-        return "Note traker is running";
-        //this is use to end point check //get req ekk withryi denn ona //application ek run wenwad blnn
-        //controller ekkt wada tiyenwanm health check dann ona
-        //req-http://localhost:8080/note/api/v1/notes/health
-        //resp=Note traker is running
-
-    }
+//    @GetMapping("health")
+//    public String healthCheck(){
+//        return "Note traker is running";
+//
+//
+//    }
    //TODO: CRUD
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createNote(@RequestBody NoteDTO note){
-        try {
-            noteService.saveNote(note);
-            return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch (NoteNoteFound e){
-            return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
+        //if-el ekk - if else godak use krnw
+        if (note == null){
+            return  new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else {
+            try {
+                noteService.saveNote(note);
+                return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }catch (DataPersistFailedException e){
+                return new  ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+            }catch (Exception e){
+                return new  ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
+
 
 
 

@@ -4,6 +4,7 @@ import lk.ijse.gdse68.notetraker.dao.NoteDAO;
 import lk.ijse.gdse68.notetraker.dto.iml.NoteDTO;
 
 import lk.ijse.gdse68.notetraker.entity.NoteEntity;
+import lk.ijse.gdse68.notetraker.exception.DataPersistFailedException;
 import lk.ijse.gdse68.notetraker.exception.NoteNoteFound;
 import lk.ijse.gdse68.notetraker.util.AppUtil;
 import lk.ijse.gdse68.notetraker.util.Mapping;
@@ -33,17 +34,23 @@ public  class NoteServiceImpl implements NoteService {
 //    }
 
     @Override
-    public String saveNote(NoteDTO noteDTO) {
+    public void saveNote(NoteDTO noteDTO) {
      //  noteDTO.setNoteId(AppUtil.createNoteId());
 //        System.out.println(noteDTO);
     //    saveNoteTmp.add(noteDTO);
         //TODO:SET DAO
         noteDTO.setNoteId(AppUtil.createNoteId());
-        noteDAO.save(mapping.convertToEntity(noteDTO));
+        var NoteEntity = mapping.convertToEntity(noteDTO);
+        var saveNote =   noteDAO.save(NoteEntity);
         System.out.println(noteDTO);
-        return "Note saved successfully with ID: " + noteDTO.getNoteId();
+
+        if (saveNote == null){
+            throw new DataPersistFailedException("cannot save note");
+        }
+//       return "Note saved successfully with ID: " + noteDTO.getNoteId();
 
         //req-http://localhost:8080/note/api/v1/notes
+
 
     }
 

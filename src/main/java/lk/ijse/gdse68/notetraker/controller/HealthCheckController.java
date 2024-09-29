@@ -13,5 +13,10 @@ public class HealthCheckController {
     @GetMapping
     public String healthTest(){
         return "Note controller run successfully!!";
+
+        //this is use to end point check //get req ekk withryi denn ona //application ek run wenwad blnn
+        //controller ekkt wada tiyenwanm health check dann ona
+        //req-http://localhost:8080/note/api/v1/notes/health
+        //resp=Note traker is running
     }
 }
